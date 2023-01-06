@@ -1,0 +1,5 @@
+FROM docker.io/kumahq/kuma-cp:1.5.0
+
+USER root
+RUN apk update
+RUN apk add curl

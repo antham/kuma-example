@@ -1,0 +1,15 @@
+type: Dataplane
+mesh: default
+name: service2
+networking:
+  inbound:
+    - port: 9001
+      serviceAddress: 127.0.0.1
+      servicePort: 9000
+      tags:
+        kuma.io/service: backend
+        kuma.io/protocol: http
+  outbound:
+    - port: 9000
+      tags:
+        kuma.io/service: service1-8000

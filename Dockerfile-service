@@ -1,0 +1,4 @@
+FROM docker.io/archlinux
+
+RUN pacman -Syy && \
+    pacman -S --noconfirm yq lsof bind

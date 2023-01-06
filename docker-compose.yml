@@ -1,0 +1,43 @@
+services:
+  control-plane:
+    build:
+      context: .
+      dockerfile: Dockerfile-control-plane
+    user: root
+    command:
+    - run
+    - --log-level=info
+    volumes:
+    - ./certs:/certs
+    - ./bin/:/usr/local/bin
+    - ./dataplane-config/tokens:/dataplane-config/tokens
+    environment:
+    - KUMA_GENERAL_TLS_CERT_FILE=/certs/tls.crt
+    - KUMA_GENERAL_TLS_KEY_FILE=/certs/tls.key
+    expose:
+    - "5678"
+    - "5680"
+    - "5681"
+    - "5682"
+  service1:
+    build:
+      context: .
+      dockerfile: Dockerfile-service
+    command: start-dataplane
+    environment:
+      - SERVICE_NAME=service1
+    volumes:
+    - ./bin/:/usr/local/bin
+    - ./certs:/certs
+    - ./dataplane-config:/dataplane-config
+  service2:
+    build:
+      context: .
+      dockerfile: Dockerfile-service
+    command: start-dataplane
+    environment:
+      - SERVICE_NAME=service2
+    volumes:
+    - ./bin/:/usr/local/bin
+    - ./certs:/certs
+    - ./dataplane-config:/dataplane-config

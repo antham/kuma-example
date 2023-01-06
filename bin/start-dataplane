@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+IP=$(ip --json address show eth0|jq -r '.[].addr_info[].local')
+cat "/dataplane-config/config/${SERVICE_NAME}.yaml"|yq '.'|jq ".networking.address = \"$IP\""|yq -y > "/tmp/file"
+mv /tmp/file "/dataplane-config/config/${SERVICE_NAME}.yaml"
+chmod 666 "/dataplane-config/config/${SERVICE_NAME}.yaml"
+kuma-dp run --cp-address=https://control-plane:5678 --ca-cert-file /certs/ca.crt --dataplane-file="/dataplane-config/config/${SERVICE_NAME}.yaml" --dataplane-token-file="/dataplane-config/tokens/${SERVICE_NAME}"

@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+curl -s -H "Content-Type: application/json" -XPOST http://localhost:5681/tokens/dataplane --data '{"mesh": "default"}'> /dataplane-config/tokens/service1
+curl -s -H "Content-Type: application/json" -XPOST http://localhost:5681/tokens/dataplane --data '{"mesh": "default"}'> /dataplane-config/tokens/service2
+
+echo "Tokens generated in dataplane-tokens folder"
